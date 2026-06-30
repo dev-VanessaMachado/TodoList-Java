@@ -1,0 +1,4 @@
+[] estudar Java A | Alta
+[] estudar Java B | Média
+[] estudar Java C | Média
+[] estudar java D | Baixa

@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import model.Tarefa;
 
 import java.io.PrintWriter;
@@ -151,5 +152,17 @@ public class GerenciadorTarefas {
     
     public void limparTudo() {
         tarefas.clear(); // Esvazia a lista por completo
+    }
+    
+    public void moverParaCima(int indice){
+        if (indice > 0 && indice < tarefas.size()){
+            Collections.swap(tarefas, indice, indice - 1);
+        }
+    }
+    
+    public void moverParaDescer(int indice) {
+        if (indice >= 0 && indice < tarefas.size() - 1) {
+            Collections.swap(tarefas, indice, indice + 1);
+        }
     }
 }
