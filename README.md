@@ -41,7 +41,7 @@ O projeto foi estruturado seguindo boas práticas de Orientação a Objetos:
 
 1. Clone este repositório em sua máquina local:
    ```bash
-   git clone [https://github.com/SEU_USUARIO_AQUI/TodoList-Java.git](https://github.com/SEU_USUARIO_AQUI/TodoList-Java.git)
+   git clone [https://github.com/dev-VanessaMachado/TodoList-Java.git](https://github.com/dev-VanessaMachado/TodoList-Java.git)
 
 
 2. Abra o NetBeans (ou sua IDE Java de preferência).
