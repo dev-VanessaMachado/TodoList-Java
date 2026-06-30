@@ -31,11 +31,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void atualizarLista(){
         modeloLista.clear();
         
+        String filtro = (String) comboFiltro.getSelectedItem();
+        if (filtro == null) {
+            filtro = "Todas";
+        }
+        
         List<Tarefa> tarefas = gerenciador.getTarefas();
         
         for (Tarefa t: tarefas) {
-            modeloLista.addElement(t.toString());
-            //modeloLista.addElement("teste");
+            if (filtro.equals("Todas")) {
+                modeloLista.addElement(t.toString()); 
+            } else if (filtro.equals("Pendentes") && !t.isConcluida() && !t.isEmAndamento()) {
+                modeloLista.addElement(t.toString()); 
+            } else if (filtro.equals("Em Andamento") && t.isEmAndamento()) {
+                modeloLista.addElement(t.toString()); 
+            } else if (filtro.equals("Concluídas") && t.isConcluida()) {
+                modeloLista.addElement(t.toString()); 
+            }
+            
         }
     }
     
@@ -85,6 +98,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         buttonLimpar = new javax.swing.JButton();
         buttonSubir = new javax.swing.JButton();
         buttonDescer = new javax.swing.JButton();
+        comboFiltro = new javax.swing.JComboBox<>();
 
         jButton1.setText("jButton1");
 
@@ -151,6 +165,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         buttonDescer.setText("▼");
         buttonDescer.addActionListener(this::buttonDescerActionPerformed);
 
+        comboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Pendentes", "Em Andamento", "Concluídas" }));
+        comboFiltro.addActionListener(this::comboFiltroActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -180,7 +197,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(TextNovaTarefa))))
-            .addComponent(labelStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -196,9 +212,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addGap(62, 62, 62)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
+                        .addComponent(comboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(353, Short.MAX_VALUE))
+            .addComponent(labelStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,18 +233,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(2, 2, 2)
                 .addComponent(labelStatus)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21)
                         .addComponent(buttonSubir)
                         .addGap(18, 18, 18)
-                        .addComponent(buttonDescer)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(buttonDescer))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(comboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(76, 76, 76)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonConcluir)
@@ -441,6 +460,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         gerenciador.salvar();
     }//GEN-LAST:event_buttonDescerActionPerformed
 
+    private void comboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboFiltroActionPerformed
+        atualizarLista();
+    }//GEN-LAST:event_comboFiltroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -477,6 +500,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton buttonPrioridade;
     private javax.swing.JButton buttonRemover;
     private javax.swing.JButton buttonSubir;
+    private javax.swing.JComboBox<String> comboFiltro;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
